@@ -29,9 +29,9 @@ export default Register = ({navigation}) =>{
             .then((userCredential)=>{
                     userCredential?.user.updateProfile({
                         displayName:fullName,
-                        photoURL:photoURL
+                        photoURL:photoURL || "https://i.pinimg.com/736x/59/18/d8/5918d8e9040516b65f93c75a9c5b8175.jpg"
                     }).then(()=>{   
-                        navigation.goBack()
+                        navigation.replace("Login")
                         showNoitce("Registed Successed","success")
                     }).catch((error)=>{
                         console.log(error.message)

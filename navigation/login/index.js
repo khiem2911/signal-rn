@@ -1,9 +1,11 @@
 import { View,Text,Image, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import styles from './style'
 import { Input,Button } from '@rneui/themed';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from 'react-native-vector-icons/Ionicons'
 import { StatusBar } from "expo-status-bar";
+import { auth } from "../../firebase";
+import { showNoitce,Indicator } from "../../index";
 
 
 export default Login = ({navigation}) =>{
@@ -11,8 +13,8 @@ export default Login = ({navigation}) =>{
     const [password,setPassWord]=useState("")
     const [visible,setVisible]=useState(true)
     const nameIcon = visible ? "eye-off-outline" : "eye-outline"
-    
-
+    const [loading,setLoading] = useState(false)
+   
     const onChangeVisible = () =>{
         setVisible(!visible)
     }
@@ -21,6 +23,34 @@ export default Login = ({navigation}) =>{
         navigation.navigate("Register")
     }
 
+    const onLogin = async () =>{
+        setLoading(true)
+        await auth.signInWithEmailAndPassword(email,password)
+        .then(()=>{
+            navigation.replace("Home")
+        })
+        .catch((error)=>{
+            showNoitce(error.message,"danger")
+        })
+        setLoading(false)
+    }
+
+   
+    useEffect(()=>{
+        const unsubrice = auth.onAuthStateChanged((user)=>{
+            if(user){
+                navigation.replace("Home")
+            }
+        })
+        return unsubrice
+    },[])
+    
+    if(loading)
+    {
+        return (
+        <Indicator/>
+        )
+    }
     return (
         
         <KeyboardAvoidingView   behavior={'height'} style={styles.wrapper} >
@@ -36,7 +66,7 @@ export default Login = ({navigation}) =>{
                     <Input
                      textContentType={'password'}
                     inputContainerStyle={{width:300}}
-                    placeholder="PassWord"
+                    placeholder="Password"
                      value={password} 
                      onChangeText={(value)=>setPassWord(value)}  
                      secureTextEntry={visible} 
@@ -44,7 +74,7 @@ export default Login = ({navigation}) =>{
                      <TouchableOpacity onPress={onChangeVisible} activeOpacity={0.5}><Icon name={nameIcon} size={24} /></TouchableOpacity>}
                      />
                 </View>
-                    <Button containerStyle={{width:300}}  title="Login" type="outline"/>
+                    <Button onPress={onLogin} containerStyle={{width:300}}  title="Login" type="outline"/>
                     <Button onPress={onRegister} containerStyle={{width:300}} title="Register"/>
                 <View style={{height:300}}/>
         </KeyboardAvoidingView>

@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import {Login,Register} from "../index"
+import {Login,Register,Home} from "../index"
 
 
 
@@ -18,6 +18,7 @@ export default AuthStack = () =>{
         <Stack.Navigator screenOptions={globalStyle} initialRouteName="Login">
             <Stack.Screen name="Login" component={Login}></Stack.Screen>
             <Stack.Screen name="Register" component={Register}></Stack.Screen>
+            <Stack.Screen name="Home" component={Home}></Stack.Screen>
         </Stack.Navigator>
     )
 }

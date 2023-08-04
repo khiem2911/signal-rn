@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import {Login,Register,Home} from "../index"
+import {Login,Register,Home,AddChat,ChatScreen} from "../index"
 
 
 
@@ -19,6 +19,8 @@ export default AuthStack = () =>{
             <Stack.Screen name="Login" component={Login}></Stack.Screen>
             <Stack.Screen name="Register" component={Register}></Stack.Screen>
             <Stack.Screen name="Home" component={Home}></Stack.Screen>
+            <Stack.Screen name="AddChat" component={AddChat}></Stack.Screen>
+            <Stack.Screen name="Chat" component={ChatScreen}></Stack.Screen>
         </Stack.Navigator>
     )
 }

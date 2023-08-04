@@ -8,5 +8,8 @@ export default styles = StyleSheet.create({
         flexDirection:'row',
         width:100,
         justifyContent:'space-evenly'
+    },
+    scroll:{
+        height:"100%"
     }
 })
